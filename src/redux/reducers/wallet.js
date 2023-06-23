@@ -1,4 +1,4 @@
-import { GET_CURRENCIES } from '../actions';
+import { GET_CURRENCIES, ADD_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -11,7 +11,13 @@ const walletReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_CURRENCIES:
     return {
-      currencies: action.payload,
+      ...state, currencies: action.payload,
+    };
+  case ADD_EXPENSE:
+    return {
+      ...state,
+      // ...state.expenses é o que ja existia. Depois: criar novo objeto com as novas despesas adicionadas e depois lanca a action
+      expenses: [...state.expenses, { id: state.expenses.length, ...action.payload }],
     };
   default:
     return state;

@@ -1,33 +1,57 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrenciesAPI } from '../redux/actions';
+import { getCurrenciesAPI, getExpenses } from '../redux/actions';
 
 class WalletForm extends Component {
-/*   INITIAL_STATE = {
+  state = {
     value: '',
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Alimentação',
     description: '',
-    id: 0,
+    exchangeRates: {},
   };
- */
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(getCurrenciesAPI());
   }
 
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleExpensesClick = (event) => {
+    event.preventDefault();
+    const { dispatch } = this.props;
+    // this.state eu chamo o estado completo ao inves de escrever um a um
+    dispatch(getExpenses(this.state));
+    this.setState({
+      value: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      description: '',
+    });
+  };
+
   render() {
     const { currencies } = this.props;
+    const { value, currency, method, tag, description } = this.state;
     return (
       <form>
         <label>
           Valor:
           <input
             type="number"
+            value={ value }
             name="value"
             data-testid="value-input"
+            onChange={ this.handleChange }
           />
         </label>
         <label>
@@ -35,21 +59,25 @@ class WalletForm extends Component {
           <input
             type="text"
             name="description"
+            value={ description }
             data-testid="description-input"
+            onChange={ this.handleChange }
           />
         </label>
         <label>
           Moeda:
           <select
             name="currency"
+            value={ currency }
             data-testid="currency-input"
+            onChange={ this.handleChange }
           >
-            {currencies.map((currency) => (
+            {currencies.map((curr) => (
               <option
-                key={ currency }
-                value={ currency }
+                key={ curr }
+                value={ curr }
               >
-                {currency}
+                {curr}
               </option>))}
 
           </select>
@@ -58,7 +86,9 @@ class WalletForm extends Component {
           Método de Pagamento:
           <select
             name="method"
+            value={ method }
             data-testid="method-input"
+            onChange={ this.handleChange }
           >
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
@@ -68,8 +98,10 @@ class WalletForm extends Component {
         <label>
           Categoria:
           <select
-            name="category"
+            name="tag"
+            value={ tag }
             data-testid="tag-input"
+            onChange={ this.handleChange }
           >
             <option value="Alimentação">Alimentação</option>
             <option value="Lazer">Lazer</option>
@@ -78,6 +110,11 @@ class WalletForm extends Component {
             <option value="Saúde">Saúde</option>
           </select>
         </label>
+        <button
+          onClick={ this.handleExpensesClick }
+        >
+          Adicionar despesa
+        </button>
       </form>
     );
   }
