@@ -2,6 +2,7 @@
 export const ADD_EMAIL = 'ADD_EMAIL';
 export const GET_CURRENCIES = 'GET_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 
 // ACTIONS CREATORS
 export const addEmail = (email) => ({
@@ -16,6 +17,11 @@ export const getCurrencies = (currencies) => ({
 
 export const addExpenses = (expenses) => ({
   type: ADD_EXPENSE,
+  payload: expenses,
+});
+
+export const removeExpense = (expenses) => ({
+  type: REMOVE_EXPENSE,
   payload: expenses,
 });
 

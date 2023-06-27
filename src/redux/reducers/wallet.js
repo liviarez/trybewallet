@@ -1,4 +1,4 @@
-import { GET_CURRENCIES, ADD_EXPENSE } from '../actions';
+import { GET_CURRENCIES, ADD_EXPENSE, REMOVE_EXPENSE } from '../actions';
 
 const INITIAL_STATE = {
   currencies: [], // array de string
@@ -18,6 +18,11 @@ const walletReducer = (state = INITIAL_STATE, action) => {
       ...state,
       // ...state.expenses é o que ja existia. Depois: criar novo objeto com as novas despesas adicionadas e depois lanca a action
       expenses: [...state.expenses, { id: state.expenses.length, ...action.payload }],
+    };
+  case REMOVE_EXPENSE:
+    return {
+      ...state,
+      expenses: state.expenses.filter((remove) => remove.id !== action.payload),
     };
   default:
     return state;
