@@ -1,29 +1,44 @@
-/* import React from 'react';
-import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Login from '../pages/Login';
-import App from '../App';
+import { screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
+import App from '../App';
 
-describe('Testa o componente <Login.js />', () => {
-  it('Teste se a página de Login é renderizada e depois direcionada para a páina de carteira', () => {
-    renderWithRouterAndRedux(<Login />);
-    const emailValue = screen.getAllByTestId('email-input');
-    expect(emailValue).toBeInTheDocument();
+describe('teste a pagina do login', () => {
+  it('Testa se a página de Login valida como esperado e se é direcionado para pagina de carteira', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
 
-    const passwordValue = screen.getAllByTestId('password-input');
-    expect(passwordValue).toBeInTheDocument();
+    const emailInput = screen.getByTestId('email-input');
+    expect(emailInput).toBeInTheDocument();
+
+    const passwordInput = screen.getByTestId('password-input');
+    expect(passwordInput).toBeInTheDocument();
+
+    const password = screen.getByPlaceholderText('Senha');
+    expect(password).toBeInTheDocument();
 
     const button = screen.getByRole('button', { name: /entrar/i });
     expect(button).toBeInTheDocument();
     expect(button).toBeDisabled();
 
-    const { history } = renderWithRouterAndRedux(<App />);
-    userEvent.type(passwordValue, '123456');
-    userEvent.type(emailValue, 'teste@teste.com');
+    userEvent.type(emailInput, 'alguem@alguem.com');
+    userEvent.type(passwordInput, 'password');
     userEvent.click(button);
+    await waitFor(() => {
+      const route = history.location.pathname;
+      const userName = screen.queryByTestId('email-field');
+      expect(route).toBe('/');
+      expect(userName).toBeInTheDocument();
+    });
 
-    expect(history.location.pathname).toBe('/carteira');
+    /*  expect(history.location.pathname).toBe('/'); */
+  });
+  it('Testa se a página mostra as despesas totais', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    act(() => {
+      history.push('/carteira');
+    });
+    const despesa = screen.getByTestId('total-field');
+    expect(despesa).toBeInTheDocument();
   });
 });
- */
