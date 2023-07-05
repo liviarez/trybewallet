@@ -13,12 +13,15 @@ describe('Testa o componente <WalletForm.js />', () => {
     const tagInput = screen.getByTestId('tag-input');
     const methodInput = screen.getByTestId('method-input');
     const addButton = screen.getByText('Adicionar despesa');
+    const totalField = screen.getByTestId('total-field');
     userEvent.type(valueInput, '1000');
     userEvent.type(description, 'uma descricao qualquer');
     userEvent.type(currencyInput, 'USD');
     userEvent.type(tagInput, 'Saude');
     userEvent.type(methodInput, 'Dinheiro');
     userEvent.click(addButton);
+    expect(totalField).toBeInTheDocument();
+    expect(totalField.innerHTML).toBe('4829.60');
 
     const email = screen.getByTestId('email-field');
     expect(email).toBeInTheDocument();

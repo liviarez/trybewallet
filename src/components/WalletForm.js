@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrenciesAPI, getExpenses } from '../redux/actions';
+import { getCurrenciesAPI, getExpenses, editandoItem } from '../redux/actions';
 
 class WalletForm extends Component {
   state = {
@@ -39,8 +39,20 @@ class WalletForm extends Component {
     });
   };
 
+  handleEditClick = () => {
+    const { dispatch } = this.props;
+    dispatch(editandoItem(this.state));
+    this.setState({
+      value: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      description: '',
+    });
+  };
+
   render() {
-    const { currencies } = this.props;
+    const { currencies, editor } = this.props;
     const { value, currency, method, tag, description } = this.state;
     return (
       <form>
@@ -110,22 +122,38 @@ class WalletForm extends Component {
             <option value="Saúde">Saúde</option>
           </select>
         </label>
-        <button
-          onClick={ this.handleExpensesClick }
-        >
-          Adicionar despesa
-        </button>
+        { !editor
+          ? (
+            <button
+              type="button"
+              onClick={ this.handleExpensesClick }
+            >
+              Adicionar despesa
+            </button>
+          )
+          : (
+            <button
+              type="button"
+              data-testid="edit-btn"
+              onClick={ this.handleEditClick }
+            >
+              Editar despesa
+            </button>
+          )}
       </form>
     );
   }
 }
 
 // Define quais partes do estado seraoa cessiveis ao componente props.
-const mapStateToProps = (state) => ({ currencies: state.wallet.currencies });
+const mapStateToProps = (state) => ({ currencies: state.wallet.currencies,
+  editor: state.wallet.editor });
 
 WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  editor: PropTypes.bool.isRequired,
+  idToEdit: PropTypes.number.isRequired,
 };
 
 // quando for usar o estado global eu preciso usar esse connect

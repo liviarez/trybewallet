@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { removeExpense } from '../redux/actions';
+import { editExpense, removeExpense } from '../redux/actions';
 
 class Table extends Component {
   handleDeleteExpClick = (id) => {
@@ -9,9 +9,13 @@ class Table extends Component {
     dispatch(removeExpense(id));
   };
 
+  handleEditClick = (id) => {
+    const { dispatch } = this.props;
+    dispatch(editExpense({ id, editor: true }));
+  };
+
   render() {
     const { expenses } = this.props;
-    console.log(expenses);
     return (
       <table>
         <thead>
@@ -44,12 +48,21 @@ class Table extends Component {
                 </td>
                 <td>{expense.currency}</td>
                 <td>
+
                   <button
                     data-testid="delete-btn"
+                    // callback para ser chamada apenas quando clicar e não só quando renderiza o codigo
                     onClick={ () => this.handleDeleteExpClick(expense.id) }
                   >
                     Excluir
                   </button>
+                  <button
+                    data-testid="edit-btn"
+                    onClick={ () => this.handleEditClick(expense.id) }
+                  >
+                    Editar despesa
+                  </button>
+
                 </td>
               </tr>
             ))

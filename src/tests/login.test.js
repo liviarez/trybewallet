@@ -30,8 +30,6 @@ describe('teste a pagina do login', () => {
       expect(route).toBe('/');
       expect(userName).toBeInTheDocument();
     });
-
-    /*  expect(history.location.pathname).toBe('/'); */
   });
   it('Testa se a página mostra as despesas totais', () => {
     const { history } = renderWithRouterAndRedux(<App />);
