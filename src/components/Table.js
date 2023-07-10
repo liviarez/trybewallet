@@ -75,7 +75,7 @@ class Table extends Component {
 const mapStateToProps = (state) => ({ expenses: state.wallet.expenses });
 
 Table.propTypes = {
-  expenses: PropTypes.arrayOf(PropTypes.string).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 export default connect(mapStateToProps)(Table);

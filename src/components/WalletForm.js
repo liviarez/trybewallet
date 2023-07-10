@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrenciesAPI, getExpenses, editandoItem } from '../redux/actions';
+import { getCurrenciesAPI,
+  getExpenses,
+  getEditExpense } from '../redux/actions';
 
+const alimentacao = 'Alimentação';
 class WalletForm extends Component {
   state = {
     value: '',
     currency: 'USD',
     method: 'Dinheiro',
-    tag: 'Alimentação',
+    tag: alimentacao,
     description: '',
     exchangeRates: {},
   };
@@ -34,19 +37,19 @@ class WalletForm extends Component {
       value: '',
       currency: 'USD',
       method: 'Dinheiro',
-      tag: 'Alimentação',
+      tag: alimentacao,
       description: '',
     });
   };
 
   handleEditClick = () => {
     const { dispatch } = this.props;
-    dispatch(editandoItem(this.state));
+    dispatch(getEditExpense(this.state));
     this.setState({
       value: '',
       currency: 'USD',
       method: 'Dinheiro',
-      tag: 'Alimentação',
+      tag: alimentacao,
       description: '',
     });
   };
@@ -153,7 +156,6 @@ WalletForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   editor: PropTypes.bool.isRequired,
-  idToEdit: PropTypes.number.isRequired,
 };
 
 // quando for usar o estado global eu preciso usar esse connect

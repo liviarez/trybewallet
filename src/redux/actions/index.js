@@ -6,6 +6,7 @@ export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 export const EDITANDO_EXPENSE = 'EDITANDO_EXPENSE';
 
+const URL = 'https://economia.awesomeapi.com.br/json/all';
 // ACTIONS CREATORS
 export const addEmail = (email) => ({
   type: ADD_EMAIL,
@@ -38,7 +39,7 @@ export const editandoItem = (expenses) => ({
 });
 
 export const getCurrenciesAPI = () => async (dispatch) => {
-  const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+  const response = await fetch(URL);
   const data = await response.json();
   const currencies = Object.keys(data).filter((currency) => currency !== 'USDT');
   dispatch(getCurrencies(currencies));
@@ -47,8 +48,14 @@ export const getCurrenciesAPI = () => async (dispatch) => {
 };
 
 export const getExpenses = (expenses) => async (dispatch) => {
-  const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+  const response = await fetch(URL);
   const data = await response.json();
   /*   console.log('data', data); */
   dispatch(addExpenses({ ...expenses, exchangeRates: data }));
+};
+
+export const getEditExpense = (expenses) => async (dispatch) => {
+  const response = await fetch(URL);
+  const data = await response.json();
+  dispatch(editandoItem({ ...expenses, exchangeRates: data }));
 };

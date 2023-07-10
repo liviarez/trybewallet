@@ -41,11 +41,13 @@ const walletReducer = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: state.expenses
         .map((expense) => {
+          console.log('expense', expense);
           if (state.idToEdit === expense.id) {
-            return { ...expense, ...action.payload };
+            return { ...expense, ...action.payload, id: state.idToEdit };
           }
-          return { expense };
+          return { ...expense };
         }),
+      editor: false,
     };
   default:
     return state;
