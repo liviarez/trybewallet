@@ -64,7 +64,7 @@ To run this application you need to have **Git*** installed on your machine.
 git clone git@github.com:liviarez/trybewallet.git
 ```
 
-### 5 - Istall the dependencies and run the application
+### 2 - Istall the dependencies and run the application
 
 Install the dependencies:
 ```sh
@@ -89,7 +89,7 @@ Para rodar está aplicação é necessário ter **Git**.
 git clone git@github.com:liviarez/trybewallet.git
 ```
 
-### 5 - Instale as dependencias e rode a aplicação
+### 2 - Instale as dependencias e rode a aplicação
 Install the dependencies:
 ```sh
 npm install
