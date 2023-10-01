@@ -103,7 +103,7 @@ npm start
 <br />
 </details>
 
-## :💹 Rest API
+## 💹 Rest API
 
 <details>
   <summary markdown="span"><strong>:us: English</strong></summary><br />
